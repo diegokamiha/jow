@@ -10,10 +10,10 @@
         android:ems="10"
         android:id="@+id/task_edit_text" />
 
-    <Button
-        android:id="@+id/send_task_button"
+    <ai.api.ui.AIButton
+        android:id="@+id/start_listen_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send to Asana"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        style="@style/ApiAi.Microphone"/>
 </LinearLayout>
