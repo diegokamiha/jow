@@ -19,10 +19,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -172,13 +168,9 @@ public class CreateTaskFragment extends Fragment implements AIButton.AIButtonLis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode){
-
             case 200:
-
                 boolean audioAccepted = grantResults[0]== PackageManager.PERMISSION_GRANTED;
-
                 break;
-
         }
     }
 }
