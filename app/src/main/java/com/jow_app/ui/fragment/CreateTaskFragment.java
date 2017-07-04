@@ -12,6 +12,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+
 import java.util.Locale;
 
 import ai.api.android.AIConfiguration;
@@ -126,13 +127,9 @@ public class CreateTaskFragment extends Fragment implements AIButton.AIButtonLis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode){
-
             case 200:
-
                 boolean audioAccepted = grantResults[0]== PackageManager.PERMISSION_GRANTED;
-
                 break;
-
         }
     }
 }

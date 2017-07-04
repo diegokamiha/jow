@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="asanaServiceRootUrl">https://app.asana.com/api/1.0/</string>
+    <string name="airtableServiceRootUrl">https://api.airtable.com/v0/appVWZDLnxZ2MMfZt/</string>
 </resources>
