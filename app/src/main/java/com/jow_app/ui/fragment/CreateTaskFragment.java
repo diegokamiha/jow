@@ -5,27 +5,14 @@ import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.gson.JsonElement;
 import com.jow_app.R;
-import com.jow_app.utils.FormatUtils;
-import com.jow_app.webservice.AsanaFetchManager;
-import com.jow_app.webservice.request.task.TaskDataRequest;
-import com.jow_app.webservice.request.task.TaskRequest;
-import com.jow_app.webservice.response.AsanaResponse;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import ai.api.android.AIConfiguration;
 import ai.api.model.AIError;
@@ -34,9 +21,6 @@ import ai.api.model.Metadata;
 import ai.api.model.Result;
 import ai.api.model.Status;
 import ai.api.ui.AIButton;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by diego on 3/26/17.
@@ -52,7 +36,7 @@ public class CreateTaskFragment extends Fragment implements AIButton.AIButtonLis
 
     TextToSpeech textToSpeech;
 
-    private String project;
+
 
     AIConfiguration config;
 
@@ -116,44 +100,14 @@ public class CreateTaskFragment extends Fragment implements AIButton.AIButtonLis
                     Log.i(TAG, "Intent name: " + metadata.getIntentName());
                 }
 
-                final HashMap<String, JsonElement> params = result.getParameters();
-                String taskName = "";
-                String dueDate = "";
+                final ServiceChoose serviceChoose = new ServiceChoose();
 
-                if (params != null && !params.isEmpty()) {
-                    Log.i(TAG, "Parameters: ");
-                    for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
-                        Log.i(TAG, String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
-                        if(entry.getKey().equals("nomeTask")) {
-                            taskName = entry.getValue().toString().replaceAll("\"","");
-                        }else if(entry.getKey().equals("dataEntrega")){
-                            dueDate = entry.getValue().toString().replaceAll("\"","");
-                        }else if(entry.getKey().equals("projeto")){
-                            project = entry.getValue().toString().replaceAll("\"","");
-                        }
-                    }
+                if (metadata != null && metadata.getIntentName().equals("marcarTask")){
+                    serviceChoose.asana(getActivity(), result, metadata);
+                }else if (metadata!= null && metadata.getIntentName().equals("marcarGasto")){
+                    serviceChoose.airtable(getActivity(), result, metadata);
                 }
 
-                if(metadata != null && metadata.getIntentName() != null && metadata.getIntentName().equals("marcarTask")){
-                    Long projectId = FormatUtils.getProjectId(project);
-                    long[] projectIds = new long[1];
-                    if(projectId != null) {
-                        projectIds[0] = projectId;
-                    }
-                    TaskRequest taskRequest = new TaskRequest(new TaskDataRequest(taskName, Long.parseLong(getString(R.string.h_workspace_id)), Long.parseLong(getString(R.string.h_user_id)), FormatUtils.transformDate(dueDate), projectIds));
-                    AsanaFetchManager asanaFetchManager = new AsanaFetchManager(getContext());
-                    asanaFetchManager.doRequest(taskRequest, new Callback<AsanaResponse>() {
-                        @Override
-                        public void onResponse(Call<AsanaResponse> call, Response<AsanaResponse> response) {
-                            Toast.makeText(getContext(), "Checkout your asana", Toast.LENGTH_SHORT);
-                        }
-
-                        @Override
-                        public void onFailure(Call<AsanaResponse> call, Throwable t) {
-                            Log.i("exception", t.getMessage());
-                        }
-                    });
-                }
             }
 
         });

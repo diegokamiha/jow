@@ -67,6 +67,7 @@ public class FormatUtils {
         projectsMap.put("jow", 303196165594677L);
         projectsMap.put("Startup Weekend 2017", 236631540813709L);
         projectsMap.put("Discipuluz", 173141082942571L);
+        projectsMap.put("controle de gastos", 377281390152592L);
 
         return projectsMap.get(key);
     }
