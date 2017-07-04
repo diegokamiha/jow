@@ -7,13 +7,21 @@ import android.widget.Toast;
 import com.google.gson.JsonElement;
 import com.jow_app.R;
 import com.jow_app.utils.FormatUtils;
+import com.jow_app.webservice.AirTableFetchManager;
 import com.jow_app.webservice.AsanaFetchManager;
+import com.jow_app.webservice.request.airtable.expenses.CreateRecordFieldsRequest;
+import com.jow_app.webservice.request.airtable.expenses.CreateRecordRequest;
 import com.jow_app.webservice.request.task.TaskDataRequest;
 import com.jow_app.webservice.request.task.TaskRequest;
 import com.jow_app.webservice.response.AsanaResponse;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +52,7 @@ public class ServiceChoose {
 
 
 
-        final HashMap<String, JsonElement> params = result.getParameters();
+        final Map<String, JsonElement> params = result.getContexts().get(0).getParameters();
         String taskName = "";
         String dueDate = "";
 
@@ -89,36 +97,38 @@ public class ServiceChoose {
     public void airtable(final Context context, Result result, Metadata metadata){
 
 
-        /*final HashMap<String, JsonElement> params = result.getParameters();
+        final Map<String, JsonElement> params = result.getContexts().get(0).getParameters();
         String description = "";
         String date = "";
+        double value = 0;
 
         if (params != null && !params.isEmpty()) {
             Log.i(TAG, "Parameters: ");
             for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
                 Log.i(TAG, String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
-                if(entry.getKey().equals("nomeTask")) {
+                if(entry.getKey().equals("description")) {
                     description = entry.getValue().toString().replaceAll("\"","");
-                }else if(entry.getKey().equals("dataEntrega")){
-                    date = entry.getValue().toString().replaceAll("\"","");
-                }else if(entry.getKey().equals("projeto")){
+                }else if(entry.getKey().equals("value")) {
+                    value = Long.parseLong(entry.getValue().toString().replaceAll("\"",""));
+                }else if(entry.getKey().equals("account")){
                     account = entry.getValue().toString().replaceAll("\"","");
                 }
             }
         }
 
-        if(metadata != null && metadata.getIntentName() != null && metadata.getIntentName().equals("marcarTask")){
-            Long projectId = FormatUtils.getProjectId(project);
-            long[] projectIds = new long[1];
-            if(projectId != null) {
-                projectIds[0] = projectId;
-            }
-            TaskRequest taskRequest = new TaskRequest(new TaskDataRequest(, Long.parseLong(context.getString(R.string.h_workspace_id)), Long.parseLong(context.getString(R.string.h_user_id)), FormatUtils.transformDate(date), projectIds));
-            AsanaFetchManager asanaFetchManager = new AsanaFetchManager(context);
-            asanaFetchManager.doRequest(taskRequest, new Callback<AsanaResponse>() {
+        // Data atual
+        Calendar dataAtual = Calendar.getInstance(TimeZone.getDefault());
+        dataAtual.add(Calendar.HOUR, -3);
+
+
+        if(metadata != null && metadata.getIntentName() != null && metadata.getIntentName().equals("marcarGasto")){
+
+            CreateRecordRequest createRecordRequest = new CreateRecordRequest(new CreateRecordFieldsRequest(description, -value, dataAtual.getTime(), account));
+            AirTableFetchManager airTableFetchManager = new AirTableFetchManager(context);
+            airTableFetchManager.doRequest(createRecordRequest, new Callback<AsanaResponse>() {
                 @Override
                 public void onResponse(Call<AsanaResponse> call, Response<AsanaResponse> response) {
-                    Toast.makeText(context, "Checkout your asana", Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "Checkout your airtable", Toast.LENGTH_SHORT);
                 }
 
                 @Override
@@ -126,7 +136,7 @@ public class ServiceChoose {
                     Log.i("exception", t.getMessage());
                 }
             });
-        }*/
+        }
 
 
     }

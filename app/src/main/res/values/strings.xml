@@ -3,5 +3,6 @@
     <string name="personal_token_h">Bearer 0/51a130918dc93f21f6a12ffa088f54c8</string>
     <string name="h_workspace_id">498346170860</string>
     <string name="h_user_id">148312932287568</string>
-    <string name="ai_config_key">0673962d4c03434c9516e76a41764991</string>
+    <string name="ai_config_key">e7570c5748864aa1ab9d210f426e0cb0</string>
+    <string name="airtable_token">Bearer key9QZEG0YgUPoCKY</string>
 </resources>
