@@ -99,8 +99,8 @@ public class ServiceChoose {
 
         final Map<String, JsonElement> params = result.getContexts().get(0).getParameters();
         String description = "";
-        String date = "";
         double value = 0;
+        String category = "";
 
         if (params != null && !params.isEmpty()) {
             Log.i(TAG, "Parameters: ");
@@ -109,7 +109,7 @@ public class ServiceChoose {
                 if(entry.getKey().equals("description")) {
                     description = entry.getValue().toString().replaceAll("\"","");
                 }else if(entry.getKey().equals("value")) {
-                    value = Long.parseLong(entry.getValue().toString().replaceAll("\"",""));
+                    value = Double.parseDouble(entry.getValue().toString().replaceAll("\"",""));
                 }else if(entry.getKey().equals("account")){
                     account = entry.getValue().toString().replaceAll("\"","");
                 }
