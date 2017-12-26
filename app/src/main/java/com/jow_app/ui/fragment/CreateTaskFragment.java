@@ -101,13 +101,13 @@ public class CreateTaskFragment extends Fragment implements AIButton.AIButtonLis
                     Log.i(TAG, "Intent name: " + metadata.getIntentName());
                 }
 
-                final ServiceChoose serviceChoose = new ServiceChoose();
+                /*final ServiceChoose serviceChoose = new ServiceChoose();
 
                 if (metadata != null && metadata.getIntentName().equals("marcarTask")){
                     serviceChoose.asana(getActivity(), result, metadata);
                 }else if (metadata!= null && metadata.getIntentName().equals("marcarGasto")){
                     serviceChoose.airtable(getActivity(), result, metadata);
-                }
+                }*/
 
             }
 

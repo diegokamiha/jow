@@ -15,6 +15,6 @@ import retrofit2.http.POST;
 
 public interface AirTableApi {
 
-    @POST("Julho")
+    @POST("Setembro")
     Call<CreateRecordResponse> addRecord(@Body CreateRecordRequest request);
 }
